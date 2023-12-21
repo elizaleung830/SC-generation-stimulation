@@ -1,0 +1,52 @@
+Laserfun is a derived library from pyNLO. This specific package also includes customisations made in various functions like dispersion and fiber/waveguide definition.
+
+
+
+Step 1) Import all import libraries:
+import laserfun  --> this is our optical package
+import numpy as np  --> basic library to load files and caculate numerical data
+import matplotlib.pyplot as plt  --> to plot additional results
+import scipy.imterpolate  --> to interpolate data from the dispersion file
+
+
+
+Step 2) Define your parameters:
+Load the dispersion file for the waveguide. Get values for effective refractive index, effectie area, dispersion, phae mismatch, etc. 
+
+Define the waveguide parameter - width, length, n2, length, loss (alpha) and nonlinearity (gamma*)
+                     * Note: gamma can also be defined as a function gamma_function() as seen in the SiN waveguide example
+                     
+Define the laser parameters like full-width-half-maxima (pulse duration), central wavelength, power, repetition rate and energy per pulse
+
+Define the dispersion parameters - beta 1 (GDD), beta 2 (TOD) and beta 3(FOD), Raman effect and Self-steeping effect. These are boolean values.
+
+Define the simulation parameters - window size, simulation steps, simulation points, relative error and absolute error.
+
+
+
+Step 3) Build your pulse:
+Using the above parameters, along with other information like pulse type, form the pulse. It takes the following inputs ->
+
+pulse(self, pulse_type='sech',length=1, center_wavelength_nm=1550, fwhm_ps=0.2, time_window_ps=10.0, power=1, epp=None, npts=2**12,
+       power_is_avg=False, frep_MHz=100, GDD=False, TOD=0, FOD=0, RI=1.5, wav=[])
+       
+       
+       
+Step 4) Build your fiber/waveguide:
+Using the above parameters form the fiber/waveguide. It takes the following inputs ->
+
+fiber(self, length=0.1, center_wl_nm=1550, dispersion_format='GVD', dispersion=[0], gamma_W_m=0, loss_dB_per_m=0)
+                                                                      * Note = dispersion takes a list, ie [beta1, beta2, beta3]
+
+
+
+Step 5) Propagating the pulse in the non-linear schrodinger equation:
+Using the above paramters the pulse can be propagated in the fiber/waveguide as ->
+
+NLSE(pulse, fiber, nsaves=200, atol=1e-4, rtol=1e-4, reload_fiber=False, raman=False, shock=True, integrator='lsoda', print_status=True)
+
+
+
+Step 6) Print results:
+
+NLSE.plot(self, flim=30, tlim=50, margin=0.2, wavelength=False, show=True)
