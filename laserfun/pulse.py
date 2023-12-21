@@ -33,7 +33,7 @@ class Pulse:
           ``A(t) = sqrt(power) * sech(t/T0)``, where ``T0=fwhm/1.76``
         - gaussian, which produces a Gaussian shaped pulse
           ``A(t) = sqrt(power) * exp(-(t/T0)^2/2)``, where ``T0=fwhm/1.76``
-        - sinc, which uses a sin(x)/x (sinc) function
+        - sinc, which uses a sin(x)/x (sinc) functionT
           ``A(t) = sqrt(power) * sin(t/T0)/(t/T0)``, were ``T0=fwhm/3.79``
 
     center_wavelength_nm : float
