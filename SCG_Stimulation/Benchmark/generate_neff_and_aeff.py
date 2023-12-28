@@ -7,7 +7,6 @@ from skfem import Basis, ElementTriP0
 from skfem.io import from_meshio
 import numpy as np
 import matplotlib.pyplot as plt
-from alive_progress import alive_bar
 from time import sleep
 from tqdm import tqdm
 
