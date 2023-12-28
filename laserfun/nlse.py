@@ -64,7 +64,7 @@ def NLSE(pulse, fiber, nsaves=200, atol=1e-4, rtol=1e-4, reload_fiber=False,
         'vode' didn't seem to produce good results with "method='adams'", but
         things werereasonable with "method='bdf'"
         For more information, see:
-        docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html
+        libary_fem.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html
     print_status : boolean
          This determines if the propagation status will be printed. Default
          is True.
