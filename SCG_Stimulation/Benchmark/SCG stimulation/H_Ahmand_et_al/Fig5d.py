@@ -5,8 +5,8 @@ from typing import OrderedDict
 import shapely
 import pandas as pd
 import laserfun as lf
-from SCG_Stimulation.Benchmark.generate_neff_and_aeff import get_neff_and_aeff
-from SCG_Stimulation.refractive_index import n_MgF2, n_Si3N4, n_Air
+from generate_neff_and_aeff import get_neff_and_aeff
+from refractive_index import n_MgF2, n_Si3N4, n_Air
 from collections import OrderedDict
 import scipy
 import numpy as np
@@ -43,7 +43,7 @@ polygons = OrderedDict(
 resolutions = dict(core={"resolution": 0.04, "distance": 0.2},
                    air_cladding={"resolution": 0.15, "distance": 0.5},  #100nm, let it fall over 300nm
                    lower_cladding={"resolution": 0.15, "distance": 0.5},
-                   air = {"resolution": 0.5, "distance": 1}  )
+                   air = {"resolution": 0.5, "distance": 1} )
 
 n_dict = {"core": n_core,"lower_cladding":n_lower_cladding ,"air_cladding": n_air, "air":n_air}
 
@@ -52,7 +52,7 @@ print("start")
 aeff_list, neff_list, wls = get_neff_and_aeff(polygons,n_dict,wavelength_range,wavelegnth_step,resolutions)
 
 ##plot data
-np.savez(f"data_h_{height}_w_{width}_1", wls=wls, aeff_list=aeff_list, neff_list=neff_list)
+np.savez(f"data_h_{height}_w_{width}", wls=wls, aeff_list=aeff_list, neff_list=neff_list)
 
 
 

@@ -326,7 +326,7 @@ class PulseData:
 
         return z, new_wls, t, AW_WLS, AT
 
-    def plot(self, flim=30, tlim=50, margin=0.2, wavelength=False, show=True):
+    def plot(self, flim=30, tlim=50, margin=0.2, wavelength=False, show=True, wmin= None, wmax = None):
         """Plot the results in both the time and frequency domain.
 
         parameters
@@ -345,6 +345,8 @@ class PulseData:
             (THz) or wavelength (nm).
         show : boolean
             determines if plt.show() will be called to show the plot
+        wmax :
+        wmin :
 
         Returns
         -------
@@ -365,7 +367,7 @@ class PulseData:
         if wavelength:
             ax0.set_xlabel('Wavelength (nm)')
             ax2.set_xlabel('Wavelength (nm)')
-            junkz, f, t, IW, AT = self.get_results_wavelength()
+            junkz, f, t, IW, AT = self.get_results_wavelength(wmin= wmin, wmax = wmax)
             IW_dB = 10*np.log10(IW)
             IT_dB = dB(AT)
 
