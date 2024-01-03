@@ -400,10 +400,10 @@ class PulseData:
         extf = (np.min(f), np.max(f), np.min(z), np.max(z))
         extt = (np.min(t), np.max(t), np.min(z), np.max(z))
 
-        ax2.imshow(IW_dB, extent=extf, vmin=np.max(IW_dB) - 40.0,
-                   vmax=np.max(IW_dB), aspect='auto', origin='lower')
+        ax2.imshow(IW_dB, extent=extf, vmin=np.max(IW_dB) - 50.0,
+                   vmax=np.max(IW_dB), aspect='auto', origin='lower', cmap = 'jet')
         ax3.imshow(IT_dB, extent=extt, vmin=np.max(IT_dB) - 80.0,
-                   vmax=np.max(IT_dB), aspect='auto', origin='lower')
+                   vmax=np.max(IT_dB), aspect='auto', origin='lower', cmap = 'jet')
 
         ax3.set_xlabel('Time (ps)')
 
