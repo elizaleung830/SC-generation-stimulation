@@ -2,6 +2,7 @@ import math
 import pandas as pd
 import scipy
 import numpy as np
+import matplotlib.pyplot as plt
 """
 From refractiveIndex.info
 """
@@ -51,3 +52,10 @@ def n_SiO2(wavelength,type="FusedSilica"):
 
 def n_Air(wavvelength):
     return 0.05792105/(238.0185-wavvelength**(-2))+0.00167917/(57.362-wavvelength**(-2)) + 1
+
+"""
+x = [x * 1e-2 for x in range(21, 670, 1)]
+y = [n_SiO2(i) for i in x]
+plt.plot(x,y)
+plt.show()
+"""

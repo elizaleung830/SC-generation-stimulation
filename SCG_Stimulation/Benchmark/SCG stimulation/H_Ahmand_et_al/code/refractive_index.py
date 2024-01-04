@@ -2,6 +2,7 @@ import math
 import pandas as pd
 import scipy
 import numpy as np
+import matplotlib.pyplot as plt
 """
 From refractiveIndex.info
 """
@@ -40,3 +41,4 @@ def n_MgF2(wavelength):
 
 def n_Air(wavvelength):
     return 0.05792105/(238.0185-wavvelength**(-2))+0.00167917/(57.362-wavvelength**(-2)) + 1
+

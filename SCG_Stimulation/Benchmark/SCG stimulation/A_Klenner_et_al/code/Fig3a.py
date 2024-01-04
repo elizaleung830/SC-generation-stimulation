@@ -40,9 +40,9 @@ polygon = OrderedDict(
 )
 
 # Define material property and resolution of waveguide
-resolutions = dict(core={"resolution": 0.01, "distance": 0.3},
-                   cladding={"resolution": 0.04, "distance": 0.3},
-                   buried_oxide={"resolution": 0.04, "distance": 0.3} )
+resolutions = dict(core={"resolution": 0.02, "distance": 0.3},
+                   cladding={"resolution": 0.05, "distance": 0.3},
+                   buried_oxide={"resolution": 0.05, "distance": 0.3} )
 
 n_dict = {"core": n_core,"cladding":n_cladding ,"buried_oxide": n_buried_oxide}
 
@@ -59,6 +59,7 @@ wavelength_list = np.linspace(wavelength_range[0], wavelength_range[1], wavelegn
 neff_list = []
 aeff_list = []
 te_frac_list = []
+'''
 
 wavelength = 1.055
 for subdomain, n in n_dict.items():
@@ -93,6 +94,5 @@ te_frac_list = np.array(te_frac_list)
 np.savez(f"data_h_{height}_w_{width}", wls=wls, aeff_list=aeff_list, neff_list=neff_list, te_frac_list = te_frac_list)
 print("end")
 
-'''
 # Both gamma and dispersion are wrong
 # Try : higher resolution, different SiN refrative index, different Si02 refractive index
