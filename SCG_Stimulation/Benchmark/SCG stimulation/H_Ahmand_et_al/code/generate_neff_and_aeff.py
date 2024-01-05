@@ -39,19 +39,12 @@ def get_neff_and_aeff(polygon,n_dict:dict, wavelength_range:list, step, resoluti
         for subdomain, n in n_dict.items():
             epsilon[basis0.get_dofs(elements=subdomain)] = n(wavelength) ** 2
         modes = compute_modes(basis0, epsilon, wavelength=wavelength, num_modes=3, order=1)
-        for mode in modes:
-            print(f"effective area:{mode.calculate_effective_area()}")
-            if mode.te_fraction > 0.7: # Select mode according to the TE fraction
-                count += 1
-                neff_list.append(np.real(mode.n_eff))
-                aeff_list.append(mode.calculate_effective_area())
-                if show == True:
-                    mode.show(mode.E.real, direction="x")
-                break
-            fig, ax = plt.subplots()
-            modes[0].plot_intensity(ax=ax)
-            plt.title("Normalized Intensity")
-            plt.tight_layout()
-            plt.show()
+        modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.n_eff))
+        mode = modes_sorted[0]
+        neff_list.append(np.real(mode.n_eff))
+        aeff_list.append(mode.calculate_effective_area())
+        if show == True:
+            mode.show(mode.E.real, direction="x")
+
 
     return np.array(aeff_list), np.array(neff_list), np.array(wavelength_list)

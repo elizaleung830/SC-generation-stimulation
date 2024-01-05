@@ -8,10 +8,8 @@ from skfem import Basis, ElementTriP0
 from skfem.io import from_meshio
 import numpy as np
 import matplotlib.pyplot as plt
-
+import pickle
 from tqdm import tqdm
-
-
 
 # waveguide parameters
 width = 0.88 # um
@@ -22,7 +20,7 @@ n2 = 2.4e-19     # m^2/W n2 is the nonlinear refractive index at the center
 Alpha = 0     # loss (dB/cm)
 
 wavelength_range = [210,2500]
-wavelegnth_step = 50
+wavelegnth_step = 100
 
 n_core = n_Si3N4
 n_cladding = n_SiO2
@@ -47,7 +45,6 @@ resolutions = dict(core={"resolution": 0.02, "distance": 0.3},
 n_dict = {"core": n_core,"cladding":n_cladding ,"buried_oxide": n_buried_oxide}
 
 print("start")
-# Calculate dispersion and gamma
 mesh = from_meshio(mesh_from_OrderedDict(polygon, resolutions, default_resolution_max=2))
 mesh.draw().show()
 plot_domains(mesh)
@@ -78,7 +75,7 @@ for wavelength in tqdm(wavelength_list):
     for subdomain, n in n_dict.items():
         epsilon[basis0.get_dofs(elements=subdomain)] = n(wavelength) ** 2
     modes = compute_modes(basis0, epsilon, wavelength=wavelength, num_modes=3, order=1)
-    modes_sorted = modes.sorted(key=lambda mode: -mode.calculate_power(elements="core").real)
+    modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.te_fraction))
     mode = modes_sorted[0]
     #mode.show(mode.E.real, direction="x")
     neff_list.append(np.real(mode.n_eff))

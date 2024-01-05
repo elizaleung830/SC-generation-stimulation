@@ -25,7 +25,7 @@ def n_Si3N4(wavelength):
         ref_x = list(map(lambda v: v[0],ref_x))
         ref_y = list(map(lambda v: v[0], ref_y))
         """
-        ref_data = np.load("ref_data.npz")
+        ref_data = np.load("n_Si3N4.npz")
         n_interplolate = scipy.interpolate.interp1d(ref_data['ref_x'], ref_data['ref_y'])
         return n_interplolate(wavelength)
     else:
