@@ -10,7 +10,9 @@ import matplotlib.pyplot as plt
 from time import sleep
 from tqdm import tqdm
 
-def get_neff_and_aeff(polygon,n_dict:dict, wavelength_range:list, step, resolutions, default_resolution_max=2, aeff_equation = 2, plot = True, show = False):
+
+def get_neff_and_aeff(polygon, n_dict: dict, wavelength_range: list, step, resolutions, default_resolution_max=2,
+                      aeff_equation=2, plot=True, show=False):
     """
     :param polygon:
     :param n_dict:
@@ -33,7 +35,7 @@ def get_neff_and_aeff(polygon,n_dict:dict, wavelength_range:list, step, resoluti
     wavelength_list = np.linspace(wavelength_range[0], wavelength_range[1], step)
     neff_list = []
     aeff_list = []
-    count = 0
+
     for wavelength in tqdm(wavelength_list):
         wavelength = wavelength * 1e-3
         for subdomain, n in n_dict.items():
@@ -45,6 +47,5 @@ def get_neff_and_aeff(polygon,n_dict:dict, wavelength_range:list, step, resoluti
         aeff_list.append(mode.calculate_effective_area())
         if show == True:
             mode.show(mode.E.real, direction="x")
-
 
     return np.array(aeff_list), np.array(neff_list), np.array(wavelength_list)
