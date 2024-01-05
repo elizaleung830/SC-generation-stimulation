@@ -1,0 +1,31 @@
+[data_h_0.8_w_6_1.npz](data_h_0.8_w_6_1.npz)
+
+core = shapely.geometry.box(-width / 2, 0, +width / 2, height)
+lower_cladding = shapely.geometry.box(-width, -3, width, 0)
+air_cladding = shapely.geometry.box(-width, 0, width, width)
+air = shapely.geometry.box(-10, -3, 10, 10)
+polygons = OrderedDict(
+    core=core,
+    lower_cladding=lower_cladding,
+    air_cladding=air_cladding,
+    air=air
+)
+
+# Define material property and resolution of waveguide
+resolutions = dict(core={"resolution": 0.04, "distance": 0.1},
+                   air_cladding={"resolution": 0.15, "distance": 0.2},
+                   lower_cladding={"resolution": 0.15, "distance": 0.2},
+                   air={"resolution": 0.5, "distance": 0.5})
+
+data_h_0.8_w_6_2.npz:
+core = shapely.geometry.box(-width / 2, 0, +width / 2, height)
+lower_cladding = shapely.geometry.box(-6, -3, 6, 0)
+air_cladding = shapely.geometry.box(-6, 0, 6, 6)
+air = shapely.geometry.box(-8, -3, 8, 8)
+polygons = OrderedDict(core=core, lower_cladding=lower_cladding, air_cladding=air_cladding, air=air)
+
+# Define material property and resolution of waveguide
+resolutions = dict(core={"resolution": 0.04, "distance": 0.2},
+                   air_cladding={"resolution": 0.15, "distance": 0.5},  #100nm, let it fall over 300nm
+                   lower_cladding={"resolution": 0.15, "distance": 0.5},
+                   air={"resolution": 0.5, "distance": 1})
