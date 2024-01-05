@@ -49,3 +49,9 @@ def n_MgF2(wavelength):
 
 def n_Air(wavvelength):
     return 0.05792105 / (238.0185 - wavvelength ** (-2)) + 0.00167917 / (57.362 - wavvelength ** (-2)) + 1
+
+y = [n_Si3N4(x*1e-3) for x in range(310,7000,10)]
+x = range(310,7000,10)
+
+plt.plot(x,y)
+plt.show()
