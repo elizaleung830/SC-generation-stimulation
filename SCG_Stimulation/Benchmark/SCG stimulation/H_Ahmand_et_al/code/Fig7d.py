@@ -12,7 +12,7 @@ thickness = 0.8  # um
 n2 = 2.5e-19  # m^2/W n2 is the nonlinear refractive index at the center
 Alpha = 0.7  # loss (dB/cm)
 
-wavelength_range = [207, 8000]
+wavelength_range = [310, 8000]
 wavelegnth_step = 100  # steps
 
 n_core = n_Si3N4

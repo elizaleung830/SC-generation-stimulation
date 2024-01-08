@@ -20,8 +20,8 @@ thickness = 0.8  # um
 n2 = 2.5e-19  # m^2/W n2 is the nonlinear refractive index at the center
 Alpha = 0.7  # loss (dB/cm)
 
-wavelength_range = [207, 5500]
-wavelegnth_step = 50  # 50nm steps
+wavelength_range = [310, 5500]
+wavelegnth_step = 100  # 50nm steps
 
 n_core = n_Si3N4
 n_lower_cladding = n_MgF2
@@ -40,9 +40,10 @@ polygons = OrderedDict(
 )
 
 # Define material property and resolution of waveguide
-resolutions = dict(core={"resolution": 0.02, "distance": 0.1},
-                   air_cladding={"resolution": 0.08, "distance": 0.2},  # 100nm, let it fall over 300nm
-                   lower_cladding={"resolution": 0.08, "distance": 0.2})
+resolutions = dict(core={"resolution": 0.04, "distance": 0.2},
+                   air_cladding={"resolution": 0.15, "distance": 0.5},
+                   lower_cladding={"resolution": 0.15, "distance": 0.5},
+                   air={"resolution": 0.5, "distance": 1})
 
 n_dict = {"core": n_core, "lower_cladding": n_lower_cladding, "air_cladding": n_air, "air": n_air}
 

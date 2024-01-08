@@ -3,33 +3,41 @@ import pandas as pd
 import scipy
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.interpolate import UnivariateSpline
+
 """
 From refractiveIndex.info
 """
-def n_Si3N4(wavelength):
+def n_Si3N4(wavelength, fit = False):
     """
     stiometric SiN, data interplot from https://opg.optica.org/ol/fulltext.cfm?uri=ol-40-21-4823&id=331311
+    might not be valid for value outside 0.31-5.507um
     :param wavelength: in um
+    :param fit: determine if the function use sellmeier equation or equation from fitting data
     :return: linear refractive index of Si3N4/ SiN
     """
-    if wavelength >=0.31 and wavelength <= 5.507:
-        return math.sqrt((3.0249 * wavelength ** 2) / (wavelength ** 2 - 0.1353406 ** 2) + (40314 * wavelength ** 2) / (
-                wavelength ** 2 - 1239.842 ** 2) + 1)
-    elif wavelength <= 0.31 and wavelength >= 0.207:
-        return math.sqrt(1+ ((2.8939 * wavelength**2)/(wavelength**2- 0.13967**2)))
-    elif wavelength >= 5.507:
-        ## Not as accurate as the above
-        """
-        ref_data = pd.read_csv("./n_si3n4.csv", dtype=np.float64)
-        ref_x, ref_y = np.split(ref_data.values, 2, axis=1)
-        ref_x = list(map(lambda v: v[0],ref_x))
-        ref_y = list(map(lambda v: v[0], ref_y))
-        """
-        ref_data = np.load("n_Si3N4.npz")
-        n_interplolate = scipy.interpolate.interp1d(ref_data['ref_x'], ref_data['ref_y'])
-        return n_interplolate(wavelength)
-    else:
-        raise ValueError(f"wavelength provided is {wavelength}um, is out of the range for Si3N4")
+    if fit == False:
+        if wavelength >= 0.31 and wavelength <= 5.507:
+            return math.sqrt(
+                (3.0249 * wavelength ** 2) / (wavelength ** 2 - 0.1353406 ** 2) + (40314 * wavelength ** 2) / (
+                        wavelength ** 2 - 1239.842 ** 2) + 1)
+        #else:
+            #raise ValueError(f"wavelength provided is {wavelength}um, is out of the range for Si3N4")
+    elif fit == True:
+        if wavelength >= 0.31 and wavelength <= 5.507:
+            n_x, n_y = list(np.split(pd.read_csv(
+                "../reference_data/n_Si3N4.csv", dtype=np.float64
+            ).values, 2, axis=1))
+            n_x = np.array(list(map(lambda v: v[0], n_x)))
+            n_y = np.array(list(map(lambda v: v[0], n_y)))
+
+            y_spl = UnivariateSpline(n_x, n_y, s=0.0012, k=3)
+            return y_spl(wavelength)
+
+        else:
+            raise ValueError(f"wavelength provided is {wavelength}um, is out of the range for Si3N4")
+
+
 
 def n_MgF2(wavelength):
     """
