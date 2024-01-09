@@ -21,8 +21,8 @@ import collections
 import numpy as np
 from scipy.constants import pi
 
-from pynlo.utility import TFGrid, fft, resample_v, resample_t
-from pynlo.utility.misc import ndproperty, replace
+from utility import TFGrid, fft, resample_v, resample_t
+from utility.misc import ndproperty, replace
 
 
 # %% Collections
@@ -203,7 +203,7 @@ class Pulse(TFGrid):
         return self
 
     @classmethod
-    def Sech(cls, n, v_min, v_max, v0, e_p, t_fwhm, **kwargs):
+    def Sech(cls, n, v_min, v_max, v0, t_fwhm, peak_power = None,e_p = None, **kwargs):
         """
         Initialize a squared hyperbolic secant pulse.
 
@@ -222,6 +222,8 @@ class Pulse(TFGrid):
             The pulse energy.
         t_fwhm : float
             The full width at half maximum of the pulse's power envelope.
+        peak_power :
+            peak power of the pulse in W, e_p will overwrite it if e_p is provided
 
         """
         assert (t_fwhm > 0), "The pulse width must be greater than 0."
@@ -238,7 +240,13 @@ class Pulse(TFGrid):
         self.a_t = p_t**0.5 * np.exp(1j*phi_t)
 
         #---- Set Pulse Energy
-        self.e_p = e_p
+        if e_p:
+            self.e_p = e_p
+        elif peak_power:
+            self.e_p = peak_power*t_fwhm/0.88
+        else:
+            raise ValueError("There is no peak power or pulse energy provided for the pulse")
+
         return self
 
     @classmethod
