@@ -1,0 +1,4 @@
+.spyproject/
+*.pyc
+docs/build/doctrees/
+.pylint.d/
