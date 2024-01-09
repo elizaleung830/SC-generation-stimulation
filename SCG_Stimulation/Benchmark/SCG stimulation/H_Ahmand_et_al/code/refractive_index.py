@@ -20,7 +20,7 @@ def n_Si3N4(wavelength, fit = False):
     :return: linear refractive index of Si3N4/ SiN
     """
     if fit == False:
-        if wavelength >= 0.31 and wavelength <= 5.507:
+        #if wavelength >= 0.31 and wavelength <= 5.507:
             return math.sqrt(
                 (3.0249 * wavelength ** 2) / (wavelength ** 2 - 0.1353406 ** 2) + (40314 * wavelength ** 2) / (
                         wavelength ** 2 - 1239.842 ** 2) + 1)
