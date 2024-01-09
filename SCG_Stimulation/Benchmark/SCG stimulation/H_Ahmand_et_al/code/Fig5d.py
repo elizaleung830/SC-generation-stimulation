@@ -49,8 +49,8 @@ thickness = 0.8  # um
 n2 = 2.5e-19  # m^2/W n2 is the nonlinear refractive index at the center
 Alpha = 0.7  # loss (dB/cm)
 
-wavelength_range = [310, 5500]
-wavelegnth_step = 100  #  steps
+wavelength_range = [310, 5100]
+wavelegnth_step = 70  #  steps
 
 n_core = n_Si3N4
 n_lower_cladding = n_MgF2
@@ -58,8 +58,8 @@ n_air = n_Air
 
 # Construct waveguide geometry
 core = shapely.geometry.box(-width / 2, 0, +width / 2, height)
-lower_cladding = shapely.geometry.box(-10, -10, 10, 0)
-air = shapely.geometry.box(-10, 0, 10, 10)
+lower_cladding = shapely.geometry.box(-8, -8, 8, 0)
+air = shapely.geometry.box(-8, 0, 8, 8)
 polygons = OrderedDict(
     core=core,
     lower_cladding=lower_cladding,
@@ -69,7 +69,7 @@ polygons = OrderedDict(
 # Define material property and resolution of waveguide
 resolutions = dict(core={"resolution": 0.04, "distance": 0.2},
                    lower_cladding={"resolution": 0.15, "distance": 0.5},
-                   air={"resolution": 0.2, "distance": 1})
+                   air={"resolution": 0.25, "distance": 1})
 
 n_dict = {"core": n_core, "lower_cladding": n_lower_cladding, "air": n_air}
 
@@ -91,13 +91,14 @@ for wavelength in tqdm(wavelength_list):
     for subdomain, n in n_dict.items():
         epsilon[basis0.get_dofs(elements=subdomain)] = n(wavelength) ** 2
     modes = compute_modes(basis0, epsilon, wavelength=wavelength, num_modes=3, order=1)
-    modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.n_eff))
+    modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.te_fraction))
     mode = modes_sorted[0]
+   #mode.show(mode.E.real, direction = "x")
     neff_list.append(np.real(mode.n_eff))
     aeff_list.append(mode.calculate_effective_area())
 
-neff_list = np.array(aeff_list)
-aeff_list = np.array(neff_list)
+neff_list = np.array(neff_list)
+aeff_list = np.array(aeff_list)
 wls = np.array(wavelength_list)
 
 ##save data
@@ -105,4 +106,5 @@ np.savez(f"data_h_{height}_w_{width}", wls=wls, aeff_list=aeff_list, neff_list=n
 
 print("end")
 print(aeff_list)
+print(neff_list)
 print(wls)

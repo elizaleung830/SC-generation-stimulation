@@ -53,8 +53,7 @@ def n_MgF2(wavelength):
 
 
 def n_Air(wavvelength):
-    return 0.05792105 / (238.0185 - wavvelength ** (-2)) + 0.00167917 / (57.362 - wavvelength ** (-2)) + 1
-
+    return 1.0003
 
 '''
 n_x, n_y = list(np.split(pd.read_csv(
