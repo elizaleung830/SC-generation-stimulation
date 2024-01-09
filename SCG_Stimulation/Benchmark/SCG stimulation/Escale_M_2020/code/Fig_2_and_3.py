@@ -1,27 +1,22 @@
 import math
+
+from skfem import Basis, ElementTriP0
+from tqdm import tqdm
 from femwell.mesh import mesh_from_OrderedDict
 from skfem.io import from_meshio
 from femwell.visualization import plot_domains
 import shapely
-from shapely.ops import clip_by_rect
-import pandas as pd
-import laserfun as lf
+from femwell.maxwell.waveguide import compute_modes
 from refractive_index import n_SiO2, n_Air, n_LNOI
 from collections import OrderedDict
 import scipy
 import numpy as np
-import matplotlib.pyplot as plt
-from shapely.geometry import Polygon
-from matplotlib import pyplot as plt
-import geopandas as gpd
 from matplotlib import pyplot as plt
 from shapely.ops import unary_union
 from shapely.geometry import Polygon
 
-n2 = 2.5e-19  # m^2/W n2 is the nonlinear refractive index at the center
-
-wavelength_range = [310, 1500]
-wavelegnth_step = 20  # 50nm steps
+wavelength_range = [400, 1500]
+wavelegnth_step = 50  # 50nm steps
 
 n_core = n_LNOI
 n_ridge = n_LNOI
@@ -59,11 +54,10 @@ polygon = OrderedDict(
 )
 
 # Define material property and resolution of waveguide
-resolutions = dict(core={"resolution": 0.05, "distance": 0.1},
-                   ridge_right={"resolution": 0.1, "distance": 0.1},
-                   ridge_left={"resolution": 0.1, "distance": 0.1},
-                   buffer={"resolution": 0.15, "distance": 0.5},
-                   air={"resolution": 0.15, "distance": 0.5})
+resolutions = dict(core={"resolution": 0.01, "distance": 0.1},
+                   ridge ={"resolution": 0.01, "distance": 0.1},
+                   buffer={"resolution": 0.1, "distance": 0.5},
+                   air={"resolution": 0.1, "distance": 0.5})
 
 n_dict = {"core": n_core, "ridge": n_ridge, "buffer": n_buffer, "air": n_air}
 
@@ -72,13 +66,32 @@ mesh.draw().show()
 plot_domains(mesh)
 plt.show()
 
-
+#----------------------FEM solver-------------------------------
 print("start")
 # Calculate dispersion and gamma
-aeff_list, neff_list, wls = get_neff_and_aeff(polygons, n_dict, wavelength_range, wavelegnth_step, resolutions)
+mesh = from_meshio(mesh_from_OrderedDict(polygon, resolutions))
+basis0 = Basis(mesh, ElementTriP0())
+epsilon = basis0.zeros()
+wavelength_list = np.linspace(wavelength_range[0], wavelength_range[1], wavelegnth_step)
+neff_list = []
+aeff_list = []
+
+for wavelength in tqdm(wavelength_list):
+    wavelength = wavelength * 1e-3
+    for subdomain, n in n_dict.items():
+        epsilon[basis0.get_dofs(elements=subdomain)] = n(wavelength) ** 2
+    modes = compute_modes(basis0, epsilon, wavelength=wavelength, num_modes=3, order=1)
+    modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.n_eff))
+    mode = modes_sorted[0]
+    neff_list.append(np.real(mode.n_eff))
+    aeff_list.append(mode.calculate_effective_area())
+
+neff_list = np.array(aeff_list)
+aeff_list = np.array(neff_list)
+wls = np.array(wavelength_list)
 
 ##save data
-np.savez(f"data_h_{height}_w_{width}", wls=wls, aeff_list=aeff_list, neff_list=neff_list)
+np.savez(f"data_h_{ridge_height}_w_{width}", wls=wls, aeff_list=aeff_list, neff_list=neff_list)
 
 print("end")
 print(aeff_list)

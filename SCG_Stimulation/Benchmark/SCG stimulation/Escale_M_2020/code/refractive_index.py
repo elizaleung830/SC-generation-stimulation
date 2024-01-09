@@ -44,8 +44,10 @@ def n_LNOI(wavelength):
     :param wavelength:
     :return:
     '''
-    return math.sqrt(2.6734*wavelength**2/(wavelength**2 - 0.01764) + 1.2290*wavelength**2/(wavelength**2 - 0.05914) + 12.614*wavelength**2/(wavelength**2 - 474.6)+1)
-
+    if wavelength >= 0.4 and wavelength <=5:
+        return math.sqrt(2.6734*wavelength**2/(wavelength**2 - 0.01764) + 1.2290*wavelength**2/(wavelength**2 - 0.05914) + 12.614*wavelength**2/(wavelength**2 - 474.6)+1)
+    else:
+        raise ValueError("invalid wavelength for lithium niobate, must be between 0.4-5um")
 def n_MgF2(wavelength):
     """
     valid for  (0.2–7)um

@@ -21,9 +21,9 @@ n_air = n_Air
 
 # Construct waveguide geometry
 core = shapely.geometry.box(-width / 2, 0, +width / 2, height)
-lower_cladding = shapely.geometry.box(-width, -3, width, 0)
+lower_cladding = shapely.geometry.box(-10, -3, 10, 0)
 air_cladding = shapely.geometry.box(-width, 0, width, width)
-air = shapely.geometry.box(-10, -3, 10, 10)
+air = shapely.geometry.box(-10, 0, 10, 10)
 polygons = OrderedDict(
     core=core,
     lower_cladding=lower_cladding,
