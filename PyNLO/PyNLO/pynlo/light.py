@@ -21,8 +21,8 @@ import collections
 import numpy as np
 from scipy.constants import pi
 
-from utility import TFGrid, fft, resample_v, resample_t
-from utility.misc import ndproperty, replace
+from pynlo.utility import TFGrid, fft, resample_v, resample_t
+from pynlo.utility.misc import ndproperty, replace
 
 
 # %% Collections
