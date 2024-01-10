@@ -17,10 +17,10 @@ Conforti M, Baronio F, De Angelis C. Nonlinear envelope equation for broadband
 
 
 # %% Imports
+
 import numpy as np
 from scipy.constants import pi, c
 from matplotlib import pyplot as plt
-
 import pynlo
 from pynlo import utility as ut
 

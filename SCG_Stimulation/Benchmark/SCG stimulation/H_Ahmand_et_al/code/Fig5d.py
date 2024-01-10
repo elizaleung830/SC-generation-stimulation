@@ -58,8 +58,8 @@ n_air = n_Air
 
 # Construct waveguide geometry
 core = shapely.geometry.box(-width / 2, 0, +width / 2, height)
-lower_cladding = shapely.geometry.box(-8, -8, 8, 0)
-air = shapely.geometry.box(-8, 0, 8, 8)
+lower_cladding = shapely.geometry.box(-10, -10, 10, 0)
+air = shapely.geometry.box(-10, 0, 10, 10)
 polygons = OrderedDict(
     core=core,
     lower_cladding=lower_cladding,
@@ -68,8 +68,8 @@ polygons = OrderedDict(
 
 # Define material property and resolution of waveguide
 resolutions = dict(core={"resolution": 0.04, "distance": 0.2},
-                   lower_cladding={"resolution": 0.15, "distance": 0.5},
-                   air={"resolution": 0.25, "distance": 1})
+                   lower_cladding={"resolution": 0.2, "distance": 0.5},
+                   air={"resolution": 0.3, "distance": 1})
 
 n_dict = {"core": n_core, "lower_cladding": n_lower_cladding, "air": n_air}
 
@@ -91,9 +91,8 @@ for wavelength in tqdm(wavelength_list):
     for subdomain, n in n_dict.items():
         epsilon[basis0.get_dofs(elements=subdomain)] = n(wavelength) ** 2
     modes = compute_modes(basis0, epsilon, wavelength=wavelength, num_modes=3, order=1)
-    modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.te_fraction))
+    modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.n_eff))
     mode = modes_sorted[0]
-   #mode.show(mode.E.real, direction = "x")
     neff_list.append(np.real(mode.n_eff))
     aeff_list.append(mode.calculate_effective_area())
 

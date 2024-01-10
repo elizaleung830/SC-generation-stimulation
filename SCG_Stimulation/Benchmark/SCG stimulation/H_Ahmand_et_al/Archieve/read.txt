@@ -44,3 +44,7 @@ resolutions = dict(core={"resolution": 0.04, "distance": 0.2},
                    air_cladding={"resolution": 0.15, "distance": 0.5},
                    lower_cladding={"resolution": 0.15, "distance": 0.5},
                    air={"resolution": 0.5, "distance": 1})
+
+-------------------change refractive index of air to 1.003 and increase mesh size----------------
+
+------------fix the sorting of modes----------------
