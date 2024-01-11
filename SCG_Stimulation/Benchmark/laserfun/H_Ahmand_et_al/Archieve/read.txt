@@ -1,0 +1,54 @@
+[data_h_0.8_w_6_1.npz](data_h_0.8_w_6_1.npz)
+
+core = shapely.geometry.box(-width / 2, 0, +width / 2, height)
+lower_cladding = shapely.geometry.box(-width, -3, width, 0)
+air_cladding = shapely.geometry.box(-width, 0, width, width)
+air = shapely.geometry.box(-10, -3, 10, 10)
+polygons = OrderedDict(
+    core=core,
+    lower_cladding=lower_cladding,
+    air_cladding=air_cladding,
+    air=air
+)
+
+# Define material property and resolution of waveguide
+resolutions = dict(core={"resolution": 0.04, "distance": 0.1},
+                   air_cladding={"resolution": 0.15, "distance": 0.2},
+                   lower_cladding={"resolution": 0.15, "distance": 0.2},
+                   air={"resolution": 0.5, "distance": 0.5})
+---------------------------------------reduce area of air---------------------------------------
+data_h_0.8_w_6_2.npz:
+core = shapely.geometry.box(-width / 2, 0, +width / 2, height)
+lower_cladding = shapely.geometry.box(-6, -3, 6, 0)
+air_cladding = shapely.geometry.box(-6, 0, 6, 6)
+air = shapely.geometry.box(-8, -3, 8, 8)
+polygons = OrderedDict(core=core, lower_cladding=lower_cladding, air_cladding=air_cladding, air=air)
+
+# Define material property and resolution of waveguide
+resolutions = dict(core={"resolution": 0.04, "distance": 0.2},
+                   air_cladding={"resolution": 0.15, "distance": 0.5},  #100nm, let it fall over 300nm
+                   lower_cladding={"resolution": 0.15, "distance": 0.5},
+                   air={"resolution": 0.5, "distance": 1})
+
+----------increase resolution but reduce step----------------------------------------
+data_h_0.8_w_6_3.npz:
+step of 50
+resolutions = dict(core={"resolution": 0.02, "distance": 0.1},
+                   air_cladding={"resolution": 0.08, "distance": 0.2},  # 100nm, let it fall over 300nm
+                   lower_cladding={"resolution": 0.08, "distance": 0.2})
+
+----------Change refractive index method to sellmeier equation only--------------------
+data_h_0.8_w_6_4.npz
+step of 100
+resolutions = dict(core={"resolution": 0.04, "distance": 0.2},
+                   air_cladding={"resolution": 0.15, "distance": 0.5},
+                   lower_cladding={"resolution": 0.15, "distance": 0.5},
+                   air={"resolution": 0.5, "distance": 1})
+
+----------increase stimulation width and resolution--------------------
+
+----------change refractive index of air and double resolution of core--------------------
+
+-------------------change refractive index of air to 1.003 and increase mesh size----------------
+
+------------fix the sorting of modes----------------
