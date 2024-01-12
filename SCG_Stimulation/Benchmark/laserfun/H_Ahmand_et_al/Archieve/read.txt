@@ -50,5 +50,7 @@ resolutions = dict(core={"resolution": 0.04, "distance": 0.2},
 ----------change refractive index of air and double resolution of core--------------------
 
 -------------------change refractive index of air to 1.003 and increase mesh size----------------
+data_h_0.8_w_6_5.npz
 
 ------------fix the sorting of modes----------------
+data_h_0.8_w_6_6.npz

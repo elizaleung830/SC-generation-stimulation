@@ -43,14 +43,16 @@ def n_Si3N4(wavelength, fit = False):
 
 
 
-def n_MgF2(wavelength):
+def n_MgF2(wavelength, ray="o"):
     """
     valid for  (0.14–7.5)um
     :param wavelength: in um
     :return: linear refractive index of MgF2
     """
-    return math.sqrt( 0.27620 + 0.60967*wavelength**2/(wavelength**2 - 0.08636**2) + (0.0080*wavelength**2)/(wavelength**2 - 18**2) + 2.14973*wavelength**2/(wavelength**2- 25**2) + 1)
-
+    if ray == "o":
+        return math.sqrt( 0.27620 + 0.60967*wavelength**2/(wavelength**2 - 0.08636**2) + (0.0080*wavelength**2)/(wavelength**2 - 18**2) + 2.14973*wavelength**2/(wavelength**2- 25**2) + 1)
+    elif ray == "e":
+        return math.sqrt(1+0.25385+ 0.66405*wavelength**2 /(wavelength**2 - 0.08504**2) + 1.0899*wavelength**2/(wavelength**2-22.2**2)+0.1816*wavelength**2/(wavelength**2-24.4**2)+2.1227*wavelength**2/(wavelength**2-40.6**2))
 
 def n_Air(wavvelength):
     return 1.0003

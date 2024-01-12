@@ -38,24 +38,22 @@ def n_Si3N4(wavelength, fit = False):
             raise ValueError(f"wavelength provided is {wavelength}um, is out of the range for Si3N4")
 
 
-def n_LNOI(wavelength):
+def n_LNOI(wavelength, ray="o"):
     '''
     valid for 0.4 - 5 um, n(o) of Lithium niobate
     :param wavelength:
     :return:
     '''
-    if wavelength >= 0.4 and wavelength <=5:
-        return math.sqrt(2.6734*wavelength**2/(wavelength**2 - 0.01764) + 1.2290*wavelength**2/(wavelength**2 - 0.05914) + 12.614*wavelength**2/(wavelength**2 - 474.6)+1)
-    else:
-        raise ValueError("invalid wavelength for lithium niobate, must be between 0.4-5um")
-def n_MgF2(wavelength):
-    """
-    valid for  (0.2–7)um
-    :param wavelength: in um
-    :return: linear refractive index of MgF2
-    """
-    return math.sqrt(0.48755108*wavelength**2/(wavelength**2 - 0.04338408**2)+0.39875031*wavelength**2/(wavelength**2-0.09461442**2)+2.3120353*wavelength**2/(wavelength**2 - 23.793604**2)+1)
-
+    if ray == "o":
+        if wavelength >= 0.4 and wavelength <=5:
+            return math.sqrt(2.6734*wavelength**2/(wavelength**2 - 0.01764) + 1.2290*wavelength**2/(wavelength**2 - 0.05914) + 12.614*wavelength**2/(wavelength**2 - 474.6)+1)
+        else:
+            raise ValueError("invalid wavelength for lithium niobate, must be between 0.4-5um")
+    elif ray == "e":
+        if wavelength >= 0.4 and wavelength <=5:
+            return math.sqrt(2.9804*wavelength**2/(wavelength**2-0.02047)+ 0.5981*wavelength**2/(wavelength**2 -0.0666) + 8.9543 * wavelength**2 / (wavelength**2 - 416.08)+1)
+        else:
+            raise ValueError("invalid wavelength for lithium niobate, must be between 0.4-5um")
 def n_SiO2(wavelength,type="FusedSilica"):
     if type == "FusedSilica":
         if wavelength < 0.21 or wavelength > 6.7:
@@ -72,8 +70,11 @@ def n_Air(wavvelength):
 
 """
 x = [x * 1e-3 for x in range(400, 5000, 10)]
-y = [n_LNOI(i) for i in x]
+y = [n_LNOI(i, ray="e") for i in x]
 plt.plot(x,y)
 plt.show()
+
 """
+
+
 
