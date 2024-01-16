@@ -60,15 +60,15 @@ resolutions = dict(core={"resolution": 0.01, "distance": 0.1},
 
 n_dict = {"core": n_core, "ridge": n_ridge, "buffer": n_buffer, "air": n_air}
 
-mesh = from_meshio(mesh_from_OrderedDict(polygon, resolutions))
+mesh = from_meshio(mesh_from_OrderedDict(polygon, resolutions, filename = "mesh.msh"))
 mesh.draw().show()
 plot_domains(mesh)
 plt.show()
 
+"""
 #----------------------FEM solver-------------------------------
 print("start")
 # Calculate dispersion and gamma
-mesh = from_meshio(mesh_from_OrderedDict(polygon, resolutions))
 basis0 = Basis(mesh, ElementTriP0())
 epsilon = basis0.zeros()
 wavelength_list = np.linspace(wavelength_range[0], wavelength_range[1], wavelegnth_step)
@@ -109,3 +109,6 @@ np.savez(f"data_h_{ridge_height}_w_{width}_no", wls=wls, aeff_list_te=aeff_list_
 print("end")
 
 print(wls)
+
+"""
+
