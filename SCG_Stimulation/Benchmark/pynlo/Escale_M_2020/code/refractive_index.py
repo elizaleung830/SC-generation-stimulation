@@ -4,7 +4,7 @@ import scipy
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import UnivariateSpline
-
+from scipy.constants import pi, c
 """
 From refractiveIndex.info
 """
@@ -54,6 +54,7 @@ def n_LNOI(wavelength, ray="o"):
             return math.sqrt(2.9804*wavelength**2/(wavelength**2-0.02047)+ 0.5981*wavelength**2/(wavelength**2 -0.0666) + 8.9543 * wavelength**2 / (wavelength**2 - 416.08)+1)
         else:
             raise ValueError("invalid wavelength for lithium niobate, must be between 0.4-5um")
+
 def n_SiO2(wavelength,type="FusedSilica"):
     if type == "FusedSilica":
         if wavelength < 0.21 or wavelength > 6.7:
@@ -68,13 +69,20 @@ def n_SiO2(wavelength,type="FusedSilica"):
 def n_Air(wavvelength):
     return 0.05792105/(238.0185-wavvelength**(-2))+0.00167917/(57.362-wavvelength**(-2)) + 1
 
-"""
+'''
 x = [x * 1e-3 for x in range(400, 5000, 10)]
 y = [n_LNOI(i, ray="e") for i in x]
+x2 = [x * 1e-3 for x in range(400, 5000, 10)]
+y2 = [n_LNOI2(i, ray="e") for i in x]
+x3 = [x * 1e-3 for x in range(400, 5000, 10)]
+y3 = [n_cLN(i, T=25) for i in x]
 plt.plot(x,y)
+plt.plot(x2,y2, color="red")
+plt.plot(x3,y3, color="green")
 plt.show()
+'''
 
-"""
+
 
 
 
