@@ -13,7 +13,6 @@ import numpy as np
 # waveguide parameters
 width = 6  # um
 height = 0.8  # um
-thickness = 0.8  # um
 
 n2 = 2.5e-19  # m^2/W n2 is the nonlinear refractive index at the center
 Alpha = 0.7  # loss (dB/cm)
@@ -22,13 +21,13 @@ wavelength_range = [310, 5100]
 wavelegnth_step = 70  #  steps
 
 n_core = n_Si3N4
-n_lower_cladding = lambda w: n_MgF2(w, ray="e") # TODO: check effect of this line
+n_lower_cladding = lambda w: n_MgF2(w, ray="o") # TODO: check effect of this line
 n_air = n_Air
 
 # Construct waveguide geometry
 core = shapely.geometry.box(-width / 2, 0, +width / 2, height)
-lower_cladding = shapely.geometry.box(-6, -6, 6, 0)
-air = shapely.geometry.box(-6, 0, 6, 6)
+lower_cladding = shapely.geometry.box(-18, -18, 18, 0)
+air = shapely.geometry.box(-18, 0, 18, 18)
 polygons = OrderedDict(
     core=core,
     lower_cladding=lower_cladding,
@@ -37,8 +36,8 @@ polygons = OrderedDict(
 
 # Define material property and resolution of waveguide
 resolutions = dict(core={"resolution": 0.04, "distance": 0.1},
-                   lower_cladding={"resolution": 0.15, "distance": 0.2},
-                   air={"resolution": 0.2, "distance": 0.2})
+                   lower_cladding={"resolution": 0.3, "distance": 0.2},
+                   air={"resolution": 0.3, "distance": 0.2})
 
 n_dict = {"core": n_core, "lower_cladding": n_lower_cladding, "air": n_air}
 
@@ -71,7 +70,7 @@ aeff_list = np.array(aeff_list)
 wls = np.array(wavelength_list)
 
 ##save data
-np.savez(f"data_h_{height}_w_{width}_ne", wls=wls, aeff_list=aeff_list, neff_list=neff_list)
+np.savez(f"data_h_{height}_w_{width}_no", wls=wls, aeff_list=aeff_list, neff_list=neff_list)
 
 print("end")
 print(aeff_list)
