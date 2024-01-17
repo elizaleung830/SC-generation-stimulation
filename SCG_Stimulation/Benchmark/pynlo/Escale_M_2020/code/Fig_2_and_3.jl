@@ -83,7 +83,7 @@ print("start sweeping")
 @showprogress dt=1 desc="Computing..." for wavelength in wavelength_list
     # initaliza tensor
     eye = diagonal_tensor(VectorValue([1.0, 1.0, 1.0]))
-    LNOI = TensorValue([n_LNOI(wavelength,"o")^2 0 0; 0 n_LNOI(wavelength,"o")^2 0; 0 0 n_LNOI(wavelength,"e")^2])
+    LNOI = TensorValue([n_LNOI(wavelength,"e")^2 0 0; 0 n_LNOI(wavelength,"o")^2 0; 0 0 n_LNOI(wavelength,"o")^2])
     epsilons = ["core" => LNOI, "ridge" => LNOI, "buffer" => n_SiO2(wavelength)^2 * eye, "air" => n_Air(wavelength)^2 * eye]
 
     # Assign tensor
@@ -103,7 +103,7 @@ print("start sweeping")
     #plot_field(E(modes[1]))
     #plot_mode(mode[1])
 end
-npzwrite("SCG_Stimulation\\Benchmark\\pynlo\\Escale_M_2020\\code\\data_LNOI_z",  Dict("neff_list_tm" => neff_list_tm, "aeff_list_tm" => aeff_list_tm,"neff_list_te" => neff_list_te, "aeff_list_te" => aeff_list_te, "wls"=>wavelength_list))
+npzwrite("SCG_Stimulation\\Benchmark\\pynlo\\Escale_M_2020\\code\\data_LNOI_x",  Dict("neff_list_tm" => neff_list_tm, "aeff_list_tm" => aeff_list_tm,"neff_list_te" => neff_list_te, "aeff_list_te" => aeff_list_te, "wls"=>wavelength_list))
 # tensor should be in the middle?
 #=
 CairoMakie.activate!(type = "png")
