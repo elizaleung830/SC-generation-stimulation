@@ -53,10 +53,10 @@ polygon = OrderedDict(
 )
 
 # Define material property and resolution of waveguide
-resolutions = dict(core={"resolution": 0.01, "distance": 0.1},
-                   ridge ={"resolution": 0.02, "distance": 0.1},
-                   buffer={"resolution": 0.04, "distance": 0.5},
-                   air={"resolution": 0.04, "distance": 0.5})
+resolutions = dict(core={"resolution": 0.005, "distance": 0.1},
+                   ridge ={"resolution": 0.01, "distance": 0.1},
+                   buffer={"resolution": 0.03, "distance": 0.5},
+                   air={"resolution": 0.03, "distance": 0.5})
 
 n_dict = {"core": n_core, "ridge": n_ridge, "buffer": n_buffer, "air": n_air}
 
@@ -64,6 +64,7 @@ mesh = from_meshio(mesh_from_OrderedDict(polygon, resolutions, filename = "mesh.
 mesh.draw().show()
 plot_domains(mesh)
 plt.show()
+print(mesh)
 
 """
 #----------------------FEM solver-------------------------------

@@ -20,12 +20,12 @@ def n_Si3N4(wavelength, fit = False):
     :return: linear refractive index of Si3N4/ SiN
     """
     if fit == False:
-        #if wavelength >= 0.31 and wavelength <= 5.507:
+        if wavelength >= 0.31 and wavelength <= 5.507:
             return math.sqrt(
                 (3.0249 * wavelength ** 2) / (wavelength ** 2 - 0.1353406 ** 2) + (40314 * wavelength ** 2) / (
                         wavelength ** 2 - 1239.842 ** 2) + 1)
-        #else:
-            #raise ValueError(f"wavelength provided is {wavelength}um, is out of the range for Si3N4")
+        else:
+            raise ValueError(f"wavelength provided is {wavelength}um, is out of the range for Si3N4")
     elif fit == True:
         if wavelength >= 0.31 and wavelength <= 5.507:
             n_x, n_y = list(np.split(pd.read_csv(
@@ -53,8 +53,6 @@ def n_MgF2(wavelength, ray="o"):
         return math.sqrt(0.48755108*wavelength**2/(wavelength**2 - 0.04338408**2) + 0.39875031 * wavelength**2 / (wavelength**2 - 0.09461442**2) + 2.3120353 * wavelength**2 /(wavelength**2 - 23.793604**2) + 1)
     elif ray == "e":
         return math.sqrt(1+ 0.41344023*wavelength**2 /(wavelength**2 - 0.03684262**2) + 0.50497499*wavelength**2/(wavelength**2-0.09076162**2)+2.4904862*wavelength**2/(wavelength**2-23.771995**2))
-    elif ray == "film":
-        return 1.422
 
 def n_Air(wavvelength):
     return 1.0003

@@ -71,16 +71,11 @@ def n_Air(wavvelength):
 
 '''
 x = [x * 1e-3 for x in range(400, 5000, 10)]
-y = [n_LNOI(i, ray="e") for i in x]
-x2 = [x * 1e-3 for x in range(400, 5000, 10)]
-y2 = [n_LNOI2(i, ray="e") for i in x]
-x3 = [x * 1e-3 for x in range(400, 5000, 10)]
-y3 = [n_cLN(i, T=25) for i in x]
+y = [n_Air(i) for i in x]
 plt.plot(x,y)
-plt.plot(x2,y2, color="red")
-plt.plot(x3,y3, color="green")
 plt.show()
 '''
+
 
 
 
