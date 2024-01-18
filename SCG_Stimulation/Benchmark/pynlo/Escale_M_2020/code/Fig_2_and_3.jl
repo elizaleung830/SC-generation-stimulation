@@ -66,8 +66,9 @@ end
 CairoMakie.inline!(true)
 
 wavelength_range = [0.4,1.5] # in um
-steps = 70
+steps = 75
 wavelength_list = LinRange(wavelength_range[1], wavelength_range[2], steps)
+wavelength_list = [1.5]
 neff_list_tm = zeros(0)
 neff_list_te = zeros(0)
 aeff_list_tm = zeros(0)
@@ -95,15 +96,17 @@ print("start sweeping")
     mode = search_by(modes, tm_fraction)
     append!(neff_list_tm, n_eff(mode))
     append!(aeff_list_tm, a_eff(mode))
+    plot_field(H(mode))
+    plot_mode(mode)
 
     # Sort by te-fraction
     mode = search_by(modes, te_fraction)
     append!(neff_list_te, n_eff(mode))
     append!(aeff_list_te, a_eff(mode))
-    #plot_field(E(modes[1]))
-    #plot_mode(mode[1])
+    #plot_field(E(mode))
+    #plot_mode(mode)
 end
-npzwrite("SCG_Stimulation\\Benchmark\\pynlo\\Escale_M_2020\\code\\data_LNOI_x",  Dict("neff_list_tm" => neff_list_tm, "aeff_list_tm" => aeff_list_tm,"neff_list_te" => neff_list_te, "aeff_list_te" => aeff_list_te, "wls"=>wavelength_list))
+#npzwrite("SCG_Stimulation\\Benchmark\\pynlo\\Escale_M_2020\\code\\data_LNOI_x",  Dict("neff_list_tm" => neff_list_tm, "aeff_list_tm" => aeff_list_tm,"neff_list_te" => neff_list_te, "aeff_list_te" => aeff_list_te, "wls"=>wavelength_list))
 # tensor should be in the middle?
 #=
 CairoMakie.activate!(type = "png")
