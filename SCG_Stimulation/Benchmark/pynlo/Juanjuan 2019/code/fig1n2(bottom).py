@@ -1,4 +1,3 @@
-
 import math
 
 from skfem import Basis, ElementTriP0
@@ -10,63 +9,49 @@ import shapely
 from femwell.maxwell.waveguide import compute_modes
 from refractive_index import n_SiO2, n_Air, n_LNOI
 from collections import OrderedDict
-import scipy
 import numpy as np
 from matplotlib import pyplot as plt
-from shapely.ops import unary_union
 from shapely.geometry import Polygon
 
-wavelength_range = [400, 1500]
-wavelegnth_step = 70  # steps
+wavelength_range = [500, 3100]
+wavelegnth_step = 70
+ray = "o"
 
-n_core = lambda w: n_LNOI(w, ray="o") # TODO: Check effect of this line
-n_ridge = n_core
-n_buffer = lambda w: n_SiO2(w)# TODO: Check effect of this line
+n_core = lambda w: n_LNOI(w, ray=ray)
+n_buffer = n_SiO2
 n_air = n_Air
 
 # waveguide parameters
-width = 0.7  # um
-total_height = 0.4  # um
-ridge_height = 0.25
-box_height = 4
-
-triangle_height = 0.25
+bottom_width = 2 # um
+box_height = 5
+triangle_height = 0.6
 triangle_width = triangle_height/ math.tan(60 * math.pi /180)
 
-
 # Construct waveguide geometry
-core_trapiz = Polygon([(width/2 + triangle_width,0 ),(-width/2 - triangle_width, 0),(-width/2, triangle_height) , (+width/2, triangle_height)])
-core_box = shapely.geometry.box(-(width/2 + triangle_width), -0.15, (width/2 + triangle_width), 0)
-core = unary_union([core_trapiz, core_box])
 
-ridge = shapely.geometry.box(-box_height/2, -0.15,box_height/2 , 0)
-
-buffer = shapely.geometry.box(-box_height/2,-box_height/2,box_height/2,-0.15)
-air = shapely.geometry.box(-box_height/2,-box_height/2,box_height/2,box_height/2)
+core = Polygon([(bottom_width/2,0 ),(-bottom_width/2, 0),(-bottom_width/2 + triangle_width, triangle_height) , (bottom_width/2 - triangle_width, triangle_height)])
+buffer = shapely.geometry.box(-box_height/2,-box_height/2,box_height/2,0)
+air = shapely.geometry.box(-box_height/2,0,box_height/2,box_height/2)
 
 
 polygon = OrderedDict(
     core = core,
-    ridge = ridge,
     buffer = buffer,
     air= air
 )
 
 # Define material property and resolution of waveguide
-resolutions = dict(core={"resolution": 0.005, "distance": 0.1},
-                   ridge ={"resolution": 0.01, "distance": 0.1},
-                   buffer={"resolution": 0.03, "distance": 0.5},
-                   air={"resolution": 0.03, "distance": 0.5})
+resolutions = dict(core={"resolution": 0.02, "distance": 0.1},
+                   buffer={"resolution": 0.06, "distance": 0.5},
+                   air={"resolution": 0.08, "distance": 0.5})
 
-n_dict = {"core": n_core, "ridge": n_ridge, "buffer": n_buffer, "air": n_air}
+n_dict = {"core": n_core, "buffer": n_buffer, "air": n_air}
 
-mesh = from_meshio(mesh_from_OrderedDict(polygon, resolutions, filename = "mesh.msh"))
+mesh = from_meshio(mesh_from_OrderedDict(polygon, resolutions))
 mesh.draw().show()
 plot_domains(mesh)
 plt.show()
-print(mesh)
 
-"""
 #----------------------FEM solver-------------------------------
 print("start")
 # Calculate dispersion and gamma
@@ -84,7 +69,7 @@ for wavelength in tqdm(wavelength_list):
         epsilon[basis0.get_dofs(elements=subdomain)] = n(wavelength) ** 2
     modes = compute_modes(basis0, epsilon, wavelength=wavelength, num_modes=3, order=1)
     ## te mode
-    modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.te_fraction))
+    modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.n_eff))
     mode = modes_sorted[0]
     neff_list_te.append(np.real(mode.n_eff))
     aeff_list_te.append(mode.calculate_effective_area())
@@ -99,17 +84,13 @@ for wavelength in tqdm(wavelength_list):
 
 neff_list_te = np.array(neff_list_te)
 aeff_list_te = np.array(aeff_list_te)
-
 neff_list_tm = np.array(neff_list_tm)
 aeff_list_tm = np.array(aeff_list_tm)
 wls = np.array(wavelength_list)
 
 ##save data
-np.savez(f"data_h_{ridge_height}_w_{width}_no", wls=wls, aeff_list_te=aeff_list_te, neff_list_te=neff_list_te, neff_list_tm=neff_list_tm,aeff_list_tm=aeff_list_tm)
+np.savez(f"data_h_{triangle_height}_w_{bottom_width}_{ray}(bottom)", wls=wls, aeff_list_te=aeff_list_te, neff_list_te=neff_list_te, neff_list_tm=neff_list_tm,aeff_list_tm=aeff_list_tm)
 
 print("end")
 
 print(wls)
-
-"""
-

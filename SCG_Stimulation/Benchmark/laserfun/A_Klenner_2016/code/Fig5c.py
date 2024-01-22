@@ -44,7 +44,6 @@ resolutions = dict(core={"resolution": 0.02, "distance": 0.3},
 
 n_dict = {"core": n_core,"cladding":n_cladding ,"buried_oxide": n_buried_oxide}
 
-print("start")
 mesh = from_meshio(mesh_from_OrderedDict(polygon, resolutions, default_resolution_max=2))
 mesh.draw().show()
 plot_domains(mesh)
