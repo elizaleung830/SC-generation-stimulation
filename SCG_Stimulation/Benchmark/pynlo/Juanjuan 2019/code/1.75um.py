@@ -1,3 +1,4 @@
+
 import math
 
 from skfem import Basis, ElementTriP0
@@ -22,17 +23,20 @@ n_buffer = n_SiO2
 n_air = n_Air
 
 # waveguide parameters
-bottom_width = 2 # um
-box_height = 5
+top_width = 1.75
+box_height = 4
 triangle_height = 0.6
 triangle_width = triangle_height/ math.tan(60 * math.pi /180)
 
 # Construct waveguide geometry
-
+"""
 core = Polygon([(bottom_width/2,0 ),(-bottom_width/2, 0),(-bottom_width/2 + triangle_width, triangle_height) , (bottom_width/2 - triangle_width, triangle_height)])
 buffer = shapely.geometry.box(-box_height/2,-box_height/2,box_height/2,0)
 air = shapely.geometry.box(-box_height/2,0,box_height/2,box_height/2)
-
+"""
+core = Polygon([(top_width/2 + triangle_width,0 ),(-top_width/2-triangle_width, 0),(-top_width/2, triangle_height) , (top_width/2, triangle_height)])
+buffer = shapely.geometry.box(-box_height/2,-box_height/2,box_height/2,0)
+air = shapely.geometry.box(-box_height/2,0,box_height/2,box_height/2)
 
 polygon = OrderedDict(
     core = core,
@@ -41,9 +45,9 @@ polygon = OrderedDict(
 )
 
 # Define material property and resolution of waveguide
-resolutions = dict(core={"resolution": 0.02, "distance": 0.1},
-                   buffer={"resolution": 0.06, "distance": 0.5},
-                   air={"resolution": 0.08, "distance": 0.5})
+resolutions = dict(core={"resolution": 0.01, "distance": 0.1},
+                   buffer={"resolution": 0.1, "distance": 0.5},
+                   air={"resolution": 0.1, "distance": 0.5})
 
 n_dict = {"core": n_core, "buffer": n_buffer, "air": n_air}
 
@@ -89,7 +93,7 @@ aeff_list_tm = np.array(aeff_list_tm)
 wls = np.array(wavelength_list)
 
 ##save data
-np.savez(f"data_h_{triangle_height}_w_{bottom_width}_{ray}(bottom)", wls=wls, aeff_list_te=aeff_list_te, neff_list_te=neff_list_te, neff_list_tm=neff_list_tm,aeff_list_tm=aeff_list_tm)
+np.savez(f"data_h_{triangle_height}_w_{top_width}_{ray}", wls=wls, aeff_list_te=aeff_list_te, neff_list_te=neff_list_te, neff_list_tm=neff_list_tm,aeff_list_tm=aeff_list_tm)
 
 print("end")
 

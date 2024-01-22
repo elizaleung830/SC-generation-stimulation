@@ -13,7 +13,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from shapely.geometry import Polygon
 
-wavelength_range = [550, 900]
+wavelength_range = [550 * 2 , 900 *2]  # times 2? cause second harmonc generation wavelength
 wavelegnth_step = 30
 ray = "o"
 
@@ -46,8 +46,8 @@ polygon = OrderedDict(
 
 # Define material property and resolution of waveguide
 resolutions = dict(core={"resolution": 0.02, "distance": 0.1},
-                   buffer={"resolution": 0.06, "distance": 0.5},
-                   air={"resolution": 0.08, "distance": 0.5})
+                   buffer={"resolution": 0.1, "distance": 0.5},
+                   air={"resolution": 0.1, "distance": 0.5})
 
 n_dict = {"core": n_core, "buffer": n_buffer, "air": n_air}
 
