@@ -26,6 +26,7 @@ from pynlo import utility as ut
 
 
 # %% Pulse Properties
+
 """
 We first initialize a Gaussian pulse using one of the built-in pulse shapes of
 the `Pulse` class. The first few parameters constrain the frequency grid, the
@@ -45,7 +46,6 @@ t_fwhm = 50e-15     # 50 fs
 
 pulse = pynlo.light.Pulse.Gaussian(n_points, v_min, v_max, v0, e_p, t_fwhm,
                                    alias=2) # anti-aliasing
-
 
 # %% Mode Properties
 """

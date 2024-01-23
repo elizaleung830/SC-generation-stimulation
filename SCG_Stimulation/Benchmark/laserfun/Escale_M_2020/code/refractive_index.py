@@ -55,6 +55,47 @@ def n_LNOI(wavelength, ray="o"):
         else:
             raise ValueError("invalid wavelength for lithium niobate, must be between 0.4-5um")
 
+def n_LNOI_1(wls,doped="undoped",  T=24.5):
+    """
+    Refractive index of congruent lithium niobate.
+    :param wls: in um
+    References
+    ----------
+    Dieter H. Jundt, "Temperature-dependent Sellmeier equation for the index of
+     refraction, ne, in congruent lithium niobate," Opt. Lett. 22, 1553-1555
+     (1997). https://doi.org/10.1364/OL.22.001553
+
+    """
+    if doped == "undoped":
+        # Undoped
+        a1 = 5.35583
+        a2 = 0.100473
+        a3 = 0.20692
+        a4 = 100.
+        a5 = 11.34927
+        a6 = 1.5334e-2
+        b1 = 4.629e-7
+        b2 = 3.862e-8
+        b3 = -0.89e-8
+        b4 = 2.657e-5
+    elif doped == "5%":
+        # Doped 5% MgO:LN
+        a1 = 5.756
+        a2 = 0.0983
+        a3 = 0.2020
+        a4 = 189.32
+        a5 = 12.52
+        a6 = 1.32e-2
+        b1 = 2.86e-6
+        b2 = 4.7e-8
+        b3 = 6.113e-8
+        b4 = 1.516e-4
+
+    f = (T-24.5)*(T+570.82)
+    n2 = (a1 + b1*f + (a2 + b2*f)/(wls**2 - (a3 + b3*f)**2)
+          + (a4 + b4*f)/(wls**2 - a5**2) - a6*wls**2)
+    return n2**0.5
+
 def n_SiO2(wavelength,type="FusedSilica"):
     if type == "FusedSilica":
         if wavelength < 0.21 or wavelength > 6.7:
@@ -68,16 +109,5 @@ def n_SiO2(wavelength,type="FusedSilica"):
 
 def n_Air(wavvelength):
     return 0.05792105/(238.0185-wavvelength**(-2))+0.00167917/(57.362-wavvelength**(-2)) + 1
-
-'''
-x = [x * 1e-3 for x in range(400, 5000, 10)]
-y = [n_Air(i) for i in x]
-plt.plot(x,y)
-plt.show()
-'''
-
-
-
-
 
 
