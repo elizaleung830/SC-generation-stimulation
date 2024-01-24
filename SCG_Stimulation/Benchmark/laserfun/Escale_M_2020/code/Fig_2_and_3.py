@@ -19,9 +19,10 @@ from shapely.geometry import Polygon
 wavelength_range = [400, 1500]
 wavelegnth_step = 70  # steps
 
-n_core = lambda w: n_LNOI(w, ray="o") # TODO: Check effect of this line
+ray = "e"
+n_core = lambda w: n_LNOI(w, ray=ray)
 n_ridge = n_core
-n_buffer = lambda w: n_SiO2(w)# TODO: Check effect of this line
+n_buffer = lambda w: n_SiO2(w)
 n_air = n_Air
 
 # waveguide parameters
@@ -104,7 +105,7 @@ aeff_list_tm = np.array(aeff_list_tm)
 wls = np.array(wavelength_list)
 
 ##save data
-np.savez(f"data_h_{ridge_height}_w_{width}_no", wls=wls, aeff_list_te=aeff_list_te, neff_list_te=neff_list_te, neff_list_tm=neff_list_tm,aeff_list_tm=aeff_list_tm)
+np.savez(f"data_h_{ridge_height}_w_{width}_n{ray}", wls=wls, aeff_list_te=aeff_list_te, neff_list_te=neff_list_te, neff_list_tm=neff_list_tm,aeff_list_tm=aeff_list_tm)
 
 print("end")
 
