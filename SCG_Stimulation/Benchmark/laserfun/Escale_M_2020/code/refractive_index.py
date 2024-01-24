@@ -106,6 +106,12 @@ def n_SiO2(wavelength,type="FusedSilica"):
     elif type == "flim":
         return 1.45
 
+    elif type == "crystal":
+        return (1 + 0.663044 / (1 - (0.060 / wavelength) ** 2) + 0.517852 / (1 - (0.106 / wavelength) ** 2) + 0.175912 / (
+                    1 - (0.119 / wavelength) ** 2) + 0.565380 / (1 - (8.844 / wavelength) ** 2) + 1.675299 / (
+                         1 - (20.742 / wavelength) ** 2)) ** .5
+
+
 
 def n_Air(wavvelength):
     return 0.05792105/(238.0185-wavvelength**(-2))+0.00167917/(57.362-wavvelength**(-2)) + 1

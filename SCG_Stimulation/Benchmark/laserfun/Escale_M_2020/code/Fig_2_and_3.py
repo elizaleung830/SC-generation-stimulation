@@ -38,8 +38,9 @@ triangle_width = triangle_height/ math.tan(60 * math.pi /180)
 core_trapiz = Polygon([(width/2 + triangle_width,0 ),(-width/2 - triangle_width, 0),(-width/2, triangle_height) , (+width/2, triangle_height)])
 core_box = shapely.geometry.box(-(width/2 + triangle_width), -0.15, (width/2 + triangle_width), 0)
 core = unary_union([core_trapiz, core_box])
-
 ridge = shapely.geometry.box(-box_height/2, -0.15,box_height/2 , 0)
+core = unary_union([core_trapiz, ridge])
+
 
 buffer = shapely.geometry.box(-box_height/2,-box_height/2,box_height/2,-0.15)
 air = shapely.geometry.box(-box_height/2,-box_height/2,box_height/2,box_height/2)
@@ -47,18 +48,16 @@ air = shapely.geometry.box(-box_height/2,-box_height/2,box_height/2,box_height/2
 
 polygon = OrderedDict(
     core = core,
-    ridge = ridge,
     buffer = buffer,
     air= air
 )
 
 # Define material property and resolution of waveguide
-resolutions = dict(core={"resolution": 0.005, "distance": 0.1},
-                   ridge ={"resolution": 0.02, "distance": 0.1},
+resolutions = dict(core={"resolution": 0.015, "distance": 0.1},
                    buffer={"resolution": 0.1, "distance": 0.5},
                    air={"resolution": 0.1, "distance": 0.5})
 
-n_dict = {"core": n_core, "ridge": n_ridge, "buffer": n_buffer, "air": n_air}
+n_dict = {"core": n_core, "buffer": n_buffer, "air": n_air}
 
 mesh = from_meshio(mesh_from_OrderedDict(polygon, resolutions, filename = "mesh.msh"))
 mesh.draw().show()
