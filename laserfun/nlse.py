@@ -313,6 +313,7 @@ class PulseData:
             # per bin units:
             J_Hz = np.abs(self.AW)**2
             J_per_bin = J_Hz / df  # go from J*Hz/bin (native units) to J/bin
+
             # multiply by rep rate to get W/bin, and then mW/bin:
             mW_per_bin = J_per_bin * rep_rate * 1e3
 
