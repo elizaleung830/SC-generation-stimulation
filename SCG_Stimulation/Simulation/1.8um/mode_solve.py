@@ -20,7 +20,7 @@ wavelegnth_step = 70
 # bottom_width = 2 # um
 top_width = [0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1]
 
-top_width = 1.3
+top_width = 1.8
 
 box_height = 3
 triangle_height = 0.6

@@ -20,11 +20,12 @@ wavelegnth_step = 70
 # bottom_width = 2 # um
 top_width = [0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1]
 
-top_width = 1.3
+top_width = 1.9
 
 box_height = 3
 triangle_height = 0.6
 side_angle = 70
+
 triangle_width = triangle_height / math.tan(side_angle * math.pi / 180)
 bottom_height = 0.1
 
@@ -82,7 +83,7 @@ for ray in ["o"]:
         modes = compute_modes(basis0, epsilon, wavelength=wavelength, num_modes=3, order=1)
 
         ## te mode
-        modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.te_fraction))
+        modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.n_eff)) # use n_eff to get te mode
         mode = modes_sorted[0]
         neff_list_te.append(np.real(mode.n_eff))
         aeff_list_te.append(mode.calculate_effective_area())

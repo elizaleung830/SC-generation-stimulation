@@ -20,7 +20,7 @@ wavelegnth_step = 70
 # bottom_width = 2 # um
 top_width = [0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1]
 
-top_width = 1.3
+top_width = 1.4
 
 box_height = 3
 triangle_height = 0.6
@@ -60,7 +60,7 @@ basis0 = Basis(mesh, ElementTriP0())
 epsilon = basis0.zeros()
 wavelength_list = np.linspace(wavelength_range[0], wavelength_range[1], wavelegnth_step)
 
-for ray in ["o"]:
+for ray in ["e"]:
 
     neff_list_te = []
     aeff_list_te = []
