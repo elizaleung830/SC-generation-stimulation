@@ -1,0 +1,13 @@
+Z-cut LN: TE mode use No,and TM mode use No
+
+Waveguide parameter:
+   - Total height : 600nm
+   - bottom height: 100nm
+   - width : 600-2100nm, steps 100nm
+   - side-wall angle: 70 degree
+   - sio2 bottom cladding
+Pulse parameter:
+    - average power: 1.5mW on top of 4.5mW
+    - rep rate: 200 MHz
+    - FWHM : 235 fs
+    - center wavelength = 1560nm
