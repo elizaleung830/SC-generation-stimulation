@@ -61,7 +61,7 @@ basis0 = Basis(mesh, ElementTriP0())
 epsilon = basis0.zeros()
 wavelength_list = np.linspace(wavelength_range[0], wavelength_range[1], wavelegnth_step)
 
-for ray in ["o"]:
+for ray in ["e"]:
 
     neff_list_te = []
     aeff_list_te = []
@@ -89,10 +89,10 @@ for ray in ["o"]:
         aeff_list_te.append(mode.calculate_effective_area())
 
         ## tm mode
-        modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.tm_fraction))
+        modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.n_eff))
         if modes_sorted[0].tm_fraction < 0.7:
             print(f"at {wavelength}um, mode has highest tm_fraction of f{modes_sorted[0].tm_fraction}")
-        mode = modes_sorted[0]
+        mode = modes_sorted[1]
         neff_list_tm.append(np.real(mode.n_eff))
         aeff_list_tm.append(mode.calculate_effective_area())
 
