@@ -13,7 +13,7 @@ from matplotlib import pyplot as plt
 from shapely.geometry import Polygon
 from shapely.ops import unary_union
 
-wavelength_range = [500, 2500]
+wavelength_range = [500, 3000]
 wavelegnth_step = 70
 
 # waveguide parameters
@@ -46,7 +46,7 @@ polygon = OrderedDict(
 
 # Define material property and resolution of waveguide
 resolutions = dict(core={"resolution": 0.01, "distance": 0.1},
-                   buffer={"resolution": 0.06, "distance": 0.5},
+                   buffer={"resolution": 0.08, "distance": 0.5},
                    air={"resolution": 0.08, "distance": 0.5})
 
 mesh = from_meshio(mesh_from_OrderedDict(polygon, resolutions))
@@ -61,11 +61,14 @@ basis0 = Basis(mesh, ElementTriP0())
 epsilon = basis0.zeros()
 wavelength_list = np.linspace(wavelength_range[0], wavelength_range[1], wavelegnth_step)
 
-for ray in ["o"]:
+for ray in ["e"]:
 
     neff_list_te = []
+    neff_list_te1 = []
     aeff_list_te = []
-    neff_list_tm = []
+
+    neff_list_tm0 = []
+    neff_list_tm1 = []
     aeff_list_tm = []
 
     n_core = lambda w: n_LNOI(w, ray=ray)
@@ -83,24 +86,29 @@ for ray in ["o"]:
         modes = compute_modes(basis0, epsilon, wavelength=wavelength, num_modes=3, order=1)
 
         ## te mode
-        modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.n_eff)) # use n_eff to get te mode
+        modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.te_fraction)) # use n_eff to get te mode
         mode = modes_sorted[0]
         neff_list_te.append(np.real(mode.n_eff))
         aeff_list_te.append(mode.calculate_effective_area())
+        neff_list_te1.append(np.real(modes_sorted[1].n_eff))
+
+
 
         ## tm mode
         modes_sorted = modes.sorted(key=lambda mode: -np.real(mode.tm_fraction))
         if modes_sorted[0].tm_fraction < 0.7:
             print(f"at {wavelength}um, mode has highest tm_fraction of f{modes_sorted[0].tm_fraction}")
         mode = modes_sorted[0]
-        neff_list_tm.append(np.real(mode.n_eff))
+        neff_list_tm0.append(np.real(mode.n_eff))
         aeff_list_tm.append(mode.calculate_effective_area())
 
     neff_list_te = np.array(neff_list_te)
+    neff_list_te1 = np.array(neff_list_te1)
     aeff_list_te = np.array(aeff_list_te)
-    neff_list_tm = np.array(neff_list_tm)
+    neff_list_tm0 = np.array(neff_list_tm0)
+    neff_list_tm1 = np.array(neff_list_tm1)
     aeff_list_tm = np.array(aeff_list_tm)
     wls = np.array(wavelength_list)
 
-    np.savez(f"data_w_{top_width}_{ray}", wls=wls, aeff_list_te=aeff_list_te, neff_list_te=neff_list_te,
-             neff_list_tm=neff_list_tm, aeff_list_tm=aeff_list_tm)
+    np.savez(f"data_w_{top_width}_{ray}", wls=wls, aeff_list_te=aeff_list_te, neff_list_te=neff_list_te,neff_list_te1=neff_list_te1,
+             neff_list_tm0=neff_list_tm0, aeff_list_tm=aeff_list_tm)
